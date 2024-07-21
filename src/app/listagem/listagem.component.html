@@ -1,0 +1,146 @@
+<app-header></app-header>
+<section class="solicitacoes container mt-5">
+  <div class="container botao-voltar">
+    <a class="navbar-brand" href="#">
+      <button type="button" class="btn btn-outline-primary">Voltar</button>
+    </a>
+  </div>
+  <div *ngFor="let item of listagem">
+    <div class="row">
+      <div class="col">
+        <label for="nomePaciente">Nome do Paciente:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nomePaciente"
+          name="nomePaciente"
+          placeholder="Nome do Paciente"
+          readonly
+          value="{{ item.nome }}"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <label for="dataNasc">Data de Nascimento:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="dataNasc"
+          name="dataNasc"
+          placeholder="Data de Nascimento"
+          readonly
+          value="{{ item.datanasc }}"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <label for="cpf">CPF:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cpf"
+          name="cpf"
+          placeholder="CPF"
+          readonly
+          value="{{ item.cpf }}"
+          disabled
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <form class="container descricao-solicitacao" [formGroup]="validar">
+          <div class="row">
+            <div class="col-5 mt-4">
+              <label for="data">Data Inicio</label>
+              <input
+                type="date"
+                id="inicio"
+                name="inicio"
+                class="form-control"
+                required
+                [(ngModel)]="campo.inicio"
+                formControlName="inicio"
+              />
+              <div
+                *ngIf="
+                  validar.invalid && f['inicio'].errors && f['inicio'].touched
+                "
+              >
+                <div *ngIf="f['inicio'].errors['required']" class="text-danger">
+                  Campo é obrigatório
+                </div>
+              </div>
+            </div>
+
+            <div class="col-5 mt-4">
+              <label for="data">Data Fim</label>
+              <input
+                type="date"
+                id="fim"
+                name="fim"
+                class="form-control"
+                required
+                [(ngModel)]="campo.fim"
+                formControlName="fim"
+              />
+              <div
+                *ngIf="validar.invalid && f['fim'].errors && f['fim'].touched"
+              >
+                <div *ngIf="f['fim'].errors['required']" class="text-danger">
+                  Campo é obrigatório
+                </div>
+              </div>
+            </div>
+
+            <div class="col-2">
+              <button
+                type="submit"
+                class="btn btn-primary mt-5"
+                (click)="busca()"
+              >
+                Filtrar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <table class="table table-striped tabela-solicitacoes">
+          <thead>
+            <tr>
+              <th class="text-white bg-primary">Data</th>
+              <th class="text-white bg-primary">Procedimento</th>
+              <th class="text-white bg-primary">Tipo Solicitacao</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itens of item.procedimentos">
+              <td>{{ itens.data }}</td>
+              <td>{{ itens.procedimento }}</td>
+              <td>{{ itens.tiposolicitacao }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center p-2">
+          <ngb-pagination
+            [collectionSize]="collectionSize"
+            [(page)]="page"
+            [pageSize]="pageSize"
+          >
+          </ngb-pagination>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

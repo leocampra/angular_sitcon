@@ -1,0 +1,216 @@
+<app-header></app-header>
+<section class="container solicitacoes2">
+  <div class="container botao-voltar">
+    <a class="navbar-brand" href="#">
+      <button type="button" class="btn btn-outline-primary">Voltar</button>
+    </a>
+  </div>
+
+  <form class="container descricao-solicitacao" [formGroup]="validar">
+    <div class="row">
+      <div class="col">
+        <label for="nomePaciente">Nome do Paciente:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nomePaciente"
+          name="nomePaciente"
+          placeholder="Nome do Paciente"
+          readonly
+          value="{{ nome }}"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <label for="dataNasc">Data de Nascimento:</label>
+        <input
+          type="date"
+          class="form-control"
+          id="dataNasc"
+          name="dataNasc"
+          placeholder="Data de Nascimento"
+          readonly
+          value="{{ nascimento }}"
+          disabled
+        />
+      </div>
+      <div class="col">
+        <label for="cpf">CPF:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cpf"
+          name="cpf"
+          placeholder="CPF"
+          readonly
+          value="{{ cpf }}"
+          disabled
+        />
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="alert alert-warning" role="alert">
+        <b>Atenção!</b> Os campos com <b>*</b> devem ser preenchidos
+        obrigatóriamente.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6 mt-4">
+        <label for="tipoSolicitacao">Tipo de Solicitação*</label>
+        <select
+          class="form-control"
+          id="tipoSolicitacao"
+          name="tipoSolicitacao"
+          required
+          [(ngModel)]="campo.tipoSolicitacao"
+          formControlName="tipoSolicitacao"
+          (ngModelChange)="procedimentos($event)"
+        >
+          <option value="">Selecione</option>
+          <option *ngFor="let item of listatipo" value="{{ item.id }}">
+            {{ item.descricao }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            validar.invalid &&
+            f['tipoSolicitacao'].errors && f['tipoSolicitacao'].touched
+          "
+        >
+          <div
+            *ngIf="f['tipoSolicitacao'].errors['required']"
+            class="text-danger"
+          >
+            Campo é obrigatório
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mt-4">
+        <label for="procedimentos">Procedimentos*</label>
+        <div *ngIf="campo.tipoSolicitacao === '1'">
+          <select
+            class="form-control"
+            id="procedimentos"
+            name="procedimentos"
+            required
+            [(ngModel)]="campo.procedimentos"
+            formControlName="procedimentos"
+            (ngModelChange)="profissionais($event)"
+          >
+            <option value="">Selecione</option>
+            <option
+              *ngFor="let item of listaprocedimentos"
+              value="{{ item.id }}"
+            >
+              {{ item.descricao }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="campo.tipoSolicitacao === '2'">
+          <select
+            class="form-control"
+            id="procedimentos"
+            name="procedimentos"
+            required
+            [(ngModel)]="campo.procedimentos"
+            formControlName="procedimentos"
+            multiple
+            (ngModelChange)="profissionais($event)"
+          >
+            <option
+              *ngFor="let item of listaprocedimentos"
+              value="{{ item.id }}"
+            >
+              {{ item.descricao }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            validar.invalid &&
+            f['procedimentos'].errors && f['procedimentos'].touched
+          "
+        >
+          <div
+            *ngIf="f['procedimentos'].errors['required']"
+            class="text-danger"
+          >
+            Campo é obrigatório
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label for="profissional">Profissional*</label>
+        <select
+          class="form-control"
+          id="profissional"
+          name="profissional"
+          required
+          [(ngModel)]="campo.profissional"
+          formControlName="profissional"
+        >
+          <option value="">Selecione</option>
+          <option *ngFor="let item of listaprofissional" value="{{item.id}}">{{item.nome}}</option>
+
+        </select>
+        <div
+          *ngIf="
+            validar.invalid &&
+            f['profissional'].errors && f['profissional'].touched
+          "
+        >
+          <div *ngIf="f['profissional'].errors['required']" class="text-danger">
+            Campo é obrigatório
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mt-4">
+        <label for="data">Data*</label>
+        <input
+          type="date"
+          id="data"
+          name="data"
+          class="form-control"
+          required
+          [(ngModel)]="campo.data"
+          formControlName="data"
+        />
+        <div *ngIf="validar.invalid && f['data'].errors && f['data'].touched">
+          <div *ngIf="f['data'].errors['required']" class="text-danger">
+            Campo é obrigatório
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mt-4">
+        <label for="hora">Hora*</label>
+        <input
+          type="time"
+          id="hora"
+          name="hora"
+          class="form-control"
+          required
+          [(ngModel)]="campo.hora"
+          formControlName="hora"
+        />
+        <div *ngIf="validar.invalid && f['hora'].errors && f['hora'].touched">
+          <div *ngIf="f['hora'].errors['required']" class="text-danger">
+            Campo é obrigatório
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 botao-salvar">
+      <button type="submit" class="btn btn-primary mt-4" (click)="salvar()">
+        Salvar
+      </button>
+    </div>
+  </form>
+</section>
+<app-footer></app-footer>
